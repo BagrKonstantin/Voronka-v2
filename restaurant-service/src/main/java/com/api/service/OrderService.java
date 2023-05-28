@@ -2,8 +2,8 @@ package com.api.service;
 
 import com.api.util.EStatus;
 import com.api.dto.OrderRequestDTO;
-import com.api.util.Message;
-import com.api.util.OrderMessage;
+import com.api.dto.Message;
+import com.api.dto.OrderMessage;
 import com.api.model.Dish;
 import com.api.model.Order;
 import com.api.model.OrderDish;

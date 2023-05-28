@@ -2,7 +2,7 @@ package com.api.controller;
 
 import com.api.request.RegistrationRequest;
 import com.api.service.AuthService;
-import com.api.util.Message;
+import com.api.DTO.Message;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

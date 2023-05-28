@@ -1,4 +1,6 @@
-package com.api.util;
+package com.api.dto;
+
+import com.api.util.EStatus;
 
 public class OrderMessage extends Message{
     public OrderMessage(EStatus status, String message, Integer orderId) {

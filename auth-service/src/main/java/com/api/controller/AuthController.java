@@ -3,11 +3,11 @@ package com.api.controller;
 import com.api.request.LoginRequest;
 import com.api.request.RegistrationRequest;
 import com.api.util.EStatus;
-import com.api.util.Message;
+import com.api.DTO.Message;
 import com.api.service.AuthService;
 import com.api.service.JwtService;
 import com.api.service.UserService;
-import com.api.util.ValidationUser;
+import com.api.DTO.ValidationUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,23 +56,6 @@ public class AuthController {
         }
         return ResponseEntity.badRequest().body(user);
     }
-
-
-//    @GetMapping("/validate")
-//    public ResponseEntity<ValidationMessage> validateToken(@RequestParam("token") String token) {
-//        return ResponseEntity.ok(authService.validateToken(token));
-//    }
-//
-//    @GetMapping("/validate-manager")
-//    public ResponseEntity<ValidationMessage> validateManagerToken(@RequestParam("token") String token) {
-//        System.out.println("validation manager stated");
-//        return ResponseEntity.ok(authService.validateTokenByRole(token, "manager"));
-//    }
-//
-//    @GetMapping("/validate-admin")
-//    public ResponseEntity<ValidationMessage> validateAdminToken(@RequestParam("token") String token) {
-//        return ResponseEntity.ok(authService.validateTokenByRole(token, "admin"));
-//    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)

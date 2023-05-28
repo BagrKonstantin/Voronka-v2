@@ -1,9 +1,7 @@
-package com.api.util;
+package com.api.DTO;
 
 import com.api.model.User;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
 public class ValidationUser {

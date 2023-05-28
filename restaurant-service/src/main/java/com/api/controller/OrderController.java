@@ -4,7 +4,7 @@ import com.api.dto.OrderRequestDTO;
 import com.api.model.Order;
 import com.api.service.OrderService;
 import com.api.util.EStatus;
-import com.api.util.Message;
+import com.api.dto.Message;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

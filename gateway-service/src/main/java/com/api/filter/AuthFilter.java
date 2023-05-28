@@ -1,13 +1,11 @@
 package com.api.filter;
 
 import com.api.util.ParseRequest;
-import com.api.util.ValidationMessage;
-import com.api.util.ValidationUser;
+import com.api.DTO.ValidationUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;

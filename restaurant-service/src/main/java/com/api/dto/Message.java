@@ -1,5 +1,6 @@
-package com.api.util;
+package com.api.dto;
 
+import com.api.util.EStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;

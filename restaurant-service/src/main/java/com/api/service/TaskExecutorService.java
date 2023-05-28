@@ -27,15 +27,14 @@ public class TaskExecutorService {
 
     @Scheduled(fixedDelay = 10000)
     public void doSomething() throws InterruptedException {
-        Optional<Order> order = orderRepository.findTopByStatusNotOrderByCreatedAtAsc(EOrderStatus.FINISHED.toString());
+        Optional<Order> order = orderRepository.findTopByStatusOrderByCreatedAtAsc(EOrderStatus.CREATED.toString());
         if (order.isEmpty()) {
             return;
         }
-        System.out.println(order.get().getOrderId());
 
         order.get().setStatus(EOrderStatus.COOKING.toString());
         orderRepository.save(order.get());
-        System.out.println("Order is cooking");
+        System.out.println("Order " + order.get().getOrderId() + " is cooking");
         Thread.sleep(1000L * (10 + Math.abs(random.nextInt()) % 60));
         order.get().setStatus(EOrderStatus.FINISHED.toString());
         orderRepository.save(order.get());

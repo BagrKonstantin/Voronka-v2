@@ -3,11 +3,11 @@ package com.api.service;
 import com.api.request.LoginRequest;
 import com.api.request.RegistrationRequest;
 import com.api.util.EStatus;
-import com.api.util.JWTMessage;
-import com.api.util.Message;
+import com.api.DTO.JWTMessage;
+import com.api.DTO.Message;
 import com.api.model.User;
 import com.api.repository.UserRepository;
-import com.api.util.ValidationMessage;
+import com.api.DTO.ValidationMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -86,18 +86,4 @@ public class AuthService {
             return new ValidationMessage(false, ex.getMessage());
         }
     }
-
-//    public ValidationMessage validateTokenByRole(String token, String role) {
-//        ValidationMessage validationMessage = validateToken(token);
-//        if (validationMessage.getIsValid()) {
-//            if (role.equals(userRepository.findByUsername(jwtService.getUserNameFromJwtToken(token)).get().getRole())) {
-//                return new ValidationMessage(true, "JWT is valid");
-//            } else {
-//                return new ValidationMessage(false, "Token doesn't belong to " + role);
-//            }
-//        }
-//        return new ValidationMessage(false, validationMessage.getMessage());
-//    }
-
-
 }
