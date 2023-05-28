@@ -1,0 +1,28 @@
+spring:
+ cloud:
+   gateway:
+     routes:
+       - id: restaurant-service
+         uri: lb://RESTAURANT-SERVICE
+         predicates:
+           - Path=/restaurant/**
+         filters:
+           - RestaurantFilter
+
+       - id: identity-service
+         uri: lb://AUTH-SERVICE
+         predicates:
+           - Path=/auth/**
+         filters:
+           - AuthFilter
+
+ application:
+   name: GATEWAY
+server:
+  port: 8080
+  error:
+    include-message: always
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:8761/eureka/
