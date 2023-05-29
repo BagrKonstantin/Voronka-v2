@@ -29,7 +29,7 @@ password: evensaferpassword
 ```
 ### Пользователи: 
 ```
-url: jdbc:h2:file:~/data/orders;AUTO_SERVER=TRUE
+url: jdbc:h2:file:~/data/users;AUTO_SERVER=TRUE
 username: verysafeusername
 password: evensaferpassword
 ```
@@ -56,3 +56,5 @@ Docker делать не стал, а make было лень устанавли�
 
 # А вот это как то уже и не смешно... сидишь целую неделю за проектом, а потом мда
 ![alt_text](popular.png)
+# Доброе утро
+![alt_text](popular2.png)
