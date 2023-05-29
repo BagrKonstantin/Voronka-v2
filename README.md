@@ -40,6 +40,16 @@ password: evensaferpassword
 сервису с аккаунтами и попросить его распарсить JWT и узнать Id пользователя, но в требованиях об этом не сказано)
 (И вообще вдруг менаджер захочет оформить кому то заказ за свой счёт)
 
+# Порядок запуска:
+```
+ServerApplication -> AuthApplication -> RestaurantApplication -> GatewayApplication
 
+```
+
+Но можно и нарушать, главное соблюсти ```ServerApplication -> GatewayApplication```
+
+Docker делать не стал, а make было лень устанавливать((
+
+Извиняюсь за ошибки в буковках
 # Архитектура:
 ![alt_text](scheme.png)
