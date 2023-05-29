@@ -1,4 +1,4 @@
-package com.api.DTO;
+package com.api.dto;
 
 import com.api.model.User;
 import lombok.Data;

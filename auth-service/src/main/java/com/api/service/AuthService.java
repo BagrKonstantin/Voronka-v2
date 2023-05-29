@@ -3,11 +3,11 @@ package com.api.service;
 import com.api.request.LoginRequest;
 import com.api.request.RegistrationRequest;
 import com.api.util.EStatus;
-import com.api.DTO.JWTMessage;
-import com.api.DTO.Message;
+import com.api.dto.JWTMessage;
+import com.api.dto.Message;
 import com.api.model.User;
 import com.api.repository.UserRepository;
-import com.api.DTO.ValidationMessage;
+import com.api.dto.ValidationMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -62,10 +63,11 @@ public class AuthService {
     }
 
     public Message login(LoginRequest request) {
-        if (!userRepository.existsByEmail(request.getEmail())) {
+        Optional<User> user = userRepository.findByEmail(request.getEmail());
+        if (user.isEmpty()) {
             return new Message(EStatus.FORBIDDEN, "Bad credentials: User with such email doesn't exist");
         }
-        String username = userRepository.findByEmail(request.getEmail()).get().getUsername();
+        String username = user.get().getUsername();
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, request.getPassword()));
         if (authenticate.isAuthenticated()) {
             return new JWTMessage(EStatus.OK, "Token generated successfully", generateToken(username));

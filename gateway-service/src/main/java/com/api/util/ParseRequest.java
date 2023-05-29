@@ -1,6 +1,6 @@
 package com.api.util;
 
-import com.api.DTO.ValidationUser;
+import com.api.dto.ValidationUser;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.client.HttpClientErrorException;

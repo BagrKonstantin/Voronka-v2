@@ -14,24 +14,15 @@ import java.util.Map;
 
 @Component
 public class JwtService {
-
-    public static String SECRET;
-
     @Value("${jwt.secret}")
     private String secret;
-
-    @Value("${jwt.secret}")
-    public void setNameStatic(String name) {
-        SECRET = name;
-    }
-
 
     public void validateToken(final String token) {
         Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token);
     }
 
     public String getUserNameFromJwtToken(String token) {
-        return Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
     }
 
     public String generateToken(String userName) {
@@ -47,7 +38,7 @@ public class JwtService {
 
 
     private Key getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET);
+        byte[] keyBytes = Decoders.BASE64.decode(secret);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }
