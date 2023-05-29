@@ -2,8 +2,8 @@ package com.api.service;
 
 import com.api.util.EStatus;
 import com.api.dto.OrderRequestDTO;
-import com.api.dto.Message;
-import com.api.dto.OrderMessage;
+import com.api.dto.Response;
+import com.api.dto.OrderResponse;
 import com.api.model.Dish;
 import com.api.model.Order;
 import com.api.model.OrderDish;
@@ -28,7 +28,7 @@ public class OrderService {
     }
 
 
-    public Message makeOrder(OrderRequestDTO order) {
+    public Response makeOrder(OrderRequestDTO order) {
         List<Dish> dishes = dishRepository.findAll();
         Order newOrder = new Order();
         newOrder.setUserId(order.getUserId());
@@ -36,13 +36,13 @@ public class OrderService {
         for (var pos : order.getPositions()) {
             Optional<Dish> dish = dishes.stream().filter(d -> d.getTitle().equals(pos.getTitle())).findFirst();
             if (dish.isEmpty()) {
-                return new Message(EStatus.ERROR, "Dish " + pos.getTitle() + " doesn't exist");
+                return new Response(EStatus.ERROR, "Dish " + pos.getTitle() + " doesn't exist");
             }
             if (!dish.get().getIsAvailable() || dish.get().getQuantity() == 0) {
-                return new Message(EStatus.ERROR, "Dish " + pos.getTitle() + " is currently unavailable");
+                return new Response(EStatus.ERROR, "Dish " + pos.getTitle() + " is currently unavailable");
             }
             if (dish.get().getQuantity() < pos.getQuantity()) {
-                return new Message(EStatus.ERROR, "Left only " + dish.get().getQuantity() + " of " + pos.getTitle());
+                return new Response(EStatus.ERROR, "Left only " + dish.get().getQuantity() + " of " + pos.getTitle());
             }
             newOrder.addDish(new OrderDish(dish.get(), pos.getQuantity()));
             dish.get().setQuantity(dish.get().getQuantity() - pos.getQuantity());
@@ -50,7 +50,7 @@ public class OrderService {
 
         orderRepository.save(newOrder);
         dishRepository.saveAll(dishes);
-        return new OrderMessage(EStatus.OK, "Order was created", newOrder.getOrderId());
+        return new OrderResponse(EStatus.OK, "Order was created", newOrder.getOrderId());
     }
 
     public Optional<Order> findById(Integer orderId) {

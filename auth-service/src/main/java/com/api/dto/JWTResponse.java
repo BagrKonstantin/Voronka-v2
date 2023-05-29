@@ -4,8 +4,8 @@ import com.api.util.EStatus;
 import lombok.Getter;
 
 @Getter
-public class JWTMessage extends Message{
-    public JWTMessage(EStatus status, String message, String token) {
+public class JWTResponse extends Response {
+    public JWTResponse(EStatus status, String message, String token) {
         super(status, message);
         this.token = token;
     }

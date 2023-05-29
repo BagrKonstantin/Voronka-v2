@@ -3,11 +3,11 @@ package com.api.service;
 import com.api.request.LoginRequest;
 import com.api.request.RegistrationRequest;
 import com.api.util.EStatus;
-import com.api.dto.JWTMessage;
-import com.api.dto.Message;
+import com.api.dto.JWTResponse;
+import com.api.dto.Response;
 import com.api.model.User;
 import com.api.repository.UserRepository;
-import com.api.dto.ValidationMessage;
+import com.api.dto.ValidationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,12 +37,12 @@ public class AuthService {
     }
 
 
-    public Message saveUser(RegistrationRequest request) {
+    public Response saveUser(RegistrationRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            return new Message(EStatus.ERROR, "Email is already taken");
+            return new Response(EStatus.ERROR, "Email is already taken");
         }
         if (userRepository.existsByUsername(request.getUsername())) {
-            return new Message(EStatus.ERROR, "Username is already taken");
+            return new Response(EStatus.ERROR, "Username is already taken");
         }
         User user = new User();
         user.setEmail(request.getEmail());
@@ -54,25 +54,25 @@ public class AuthService {
             if (roles.stream().anyMatch(r -> r.equals(request.getRole()))) {
                 user.setRole(request.getRole());
             } else {
-                return new Message(EStatus.ERROR, "Role with such name doesn't exist");
+                return new Response(EStatus.ERROR, "Role with such name doesn't exist");
             }
         }
         userRepository.save(user);
 
-        return new Message(EStatus.OK, "User registered successfully");
+        return new Response(EStatus.OK, "User registered successfully");
     }
 
-    public Message login(LoginRequest request) {
+    public Response login(LoginRequest request) {
         Optional<User> user = userRepository.findByEmail(request.getEmail());
         if (user.isEmpty()) {
-            return new Message(EStatus.FORBIDDEN, "Bad credentials: User with such email doesn't exist");
+            return new Response(EStatus.FORBIDDEN, "Bad credentials: User with such email doesn't exist");
         }
         String username = user.get().getUsername();
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, request.getPassword()));
         if (authenticate.isAuthenticated()) {
-            return new JWTMessage(EStatus.OK, "Token generated successfully", generateToken(username));
+            return new JWTResponse(EStatus.OK, "Token generated successfully", generateToken(username));
         } else {
-            return new Message(EStatus.ERROR, "Invalid access");
+            return new Response(EStatus.ERROR, "Invalid access");
         }
     }
 
@@ -80,12 +80,12 @@ public class AuthService {
         return jwtService.generateToken(username);
     }
 
-    public ValidationMessage validateToken(String token) {
+    public ValidationResponse validateToken(String token) {
         try {
             jwtService.validateToken(token);
-            return new ValidationMessage(true, "JWT is valid");
+            return new ValidationResponse(true, "JWT is valid");
         } catch (Exception ex) {
-            return new ValidationMessage(false, ex.getMessage());
+            return new ValidationResponse(false, ex.getMessage());
         }
     }
 }

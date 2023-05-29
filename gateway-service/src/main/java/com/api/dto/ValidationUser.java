@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ValidationUser {
-    ValidationMessage validationMessage;
+    ValidationResponse validationResponse;
     User user;
 }

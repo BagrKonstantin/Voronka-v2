@@ -10,12 +10,12 @@ import org.springframework.http.ResponseEntity;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Message {
+public class Response {
     @JsonIgnore
     private EStatus status;
     private String message;
 
-    public ResponseEntity<Message> wrap() {
+    public ResponseEntity<Response> wrap() {
         if (status == EStatus.OK) {
             return ResponseEntity.ok(this);
         } else if (status == EStatus.FORBIDDEN) {

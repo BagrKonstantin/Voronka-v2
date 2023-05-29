@@ -9,16 +9,18 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 
 public class ParseRequest {
+    private ParseRequest () {
+    }
 
     public static String getJWTFromHeader(ServerWebExchange exchange) {
         if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-            throw new RuntimeException("missing authorization header");
+            throw new ResponseStatusException(HttpStatusCode.valueOf(400), "Missing authorization header");
         }
         String authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
         if (authHeader.startsWith("Bearer ")) {
             return authHeader.substring(7);
         }
-        throw new RuntimeException("Bearer required");
+        throw new ResponseStatusException(HttpStatusCode.valueOf(400), "Bearer required");
     }
     public static ValidationUser getUser(RestTemplate template, String url) {
         try {

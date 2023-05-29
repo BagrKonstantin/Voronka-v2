@@ -31,9 +31,6 @@ public class Order {
     @Column(name = "CREATED_AT")
     private Timestamp createdAt = Timestamp.valueOf(LocalDateTime.now());
 
-//    @Column(name = "UPDATED_AT")
-//    private Timestamp updatedAt = Timestamp.valueOf(LocalDateTime.now());
-
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderDish> dishes = new ArrayList<>();
 

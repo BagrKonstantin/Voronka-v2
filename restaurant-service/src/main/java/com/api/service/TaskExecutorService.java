@@ -34,11 +34,9 @@ public class TaskExecutorService {
 
         order.get().setStatus(EOrderStatus.COOKING.toString());
         orderRepository.save(order.get());
-        System.out.println("Order " + order.get().getOrderId() + " is cooking");
         Thread.sleep(1000L * (10 + Math.abs(random.nextInt()) % 60));
         order.get().setStatus(EOrderStatus.FINISHED.toString());
         orderRepository.save(order.get());
-        System.out.println("Order is ready");
     }
 
 }

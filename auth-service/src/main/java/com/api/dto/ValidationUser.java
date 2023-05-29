@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 public class ValidationUser {
-    ValidationMessage validationMessage;
+    ValidationResponse validationResponse;
     User user;
 }

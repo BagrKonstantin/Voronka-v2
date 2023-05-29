@@ -12,8 +12,12 @@ import java.util.List;
 
 @Service
 public class DishService {
-    @Autowired
     DishRepository dishRepository;
+
+    @Autowired
+    DishService(DishRepository dishRepository) {
+        this.dishRepository = dishRepository;
+    }
 
     public List<Dish> getAvailablePositions() {
         return dishRepository.findAll().stream().filter(s -> s.getIsAvailable() && s.getQuantity() > 0).toList();

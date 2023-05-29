@@ -2,12 +2,12 @@ package com.api.dto;
 
 import com.api.util.EStatus;
 
-public class OrderMessage extends Message{
-    public OrderMessage(EStatus status, String message, Integer orderId) {
+public class OrderResponse extends Response {
+    public OrderResponse(EStatus status, String message, Integer orderId) {
         super(status, message);
         this.orderId = orderId;
     }
-    private Integer orderId;
+    private final Integer orderId;
 
     public Integer getOrderId() {
         return orderId;

@@ -2,7 +2,7 @@ package com.api.controller;
 
 import com.api.request.RegistrationRequest;
 import com.api.service.AuthService;
-import com.api.dto.Message;
+import com.api.dto.Response;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class AdminController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Message> addNewUser(@Valid @RequestBody RegistrationRequest request) {
+    public ResponseEntity<Response> addNewUser(@Valid @RequestBody RegistrationRequest request) {
         return authService.saveUser(request).wrap();
     }
 

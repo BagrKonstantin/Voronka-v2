@@ -16,10 +16,11 @@ public class DishDTO {
     private Integer dishId;
 
     @NotNull
-    @Size(max = 1000)
+    @Size(max = 100)
     @NotEmpty
     private String title;
 
+    @NotEmpty
     private String description;
 
     @NotNull

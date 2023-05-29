@@ -4,7 +4,7 @@ import com.api.dto.OrderRequestDTO;
 import com.api.model.Order;
 import com.api.service.OrderService;
 import com.api.util.EStatus;
-import com.api.dto.Message;
+import com.api.dto.Response;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +30,7 @@ public class OrderController {
     public ResponseEntity<?> getOrderById(@PathVariable Integer orderId) {
         Optional<Order> order = orderService.findById(orderId);
         if (order.isEmpty()) {
-            return new Message(EStatus.ERROR, "No order with such id").wrap();
+            return new Response(EStatus.ERROR, "No order with such id").wrap();
         }
         return ResponseEntity.ok(order.get());
     }

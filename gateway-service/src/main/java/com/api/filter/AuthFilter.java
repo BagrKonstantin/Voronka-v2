@@ -2,7 +2,6 @@ package com.api.filter;
 
 import com.api.util.ParseRequest;
 import com.api.dto.ValidationUser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -14,10 +13,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Component
 public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> {
-    @Autowired
-    private RouteValidator validator;
-
-
     @Value("${server.port}")
     private String port;
 
@@ -28,11 +23,11 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
     @Override
     public GatewayFilter apply(AuthFilter.Config config) throws HttpClientErrorException {
         return ((exchange, chain) -> {
-            if (validator.isSecured.test(exchange.getRequest()) && exchange.getRequest().getPath().toString().startsWith("/auth/admin")) {
+            if (RouteValidator.isSecured.test(exchange.getRequest()) && exchange.getRequest().getPath().toString().startsWith("/auth/admin")) {
                 String token = ParseRequest.getJWTFromHeader(exchange);
                 ValidationUser user = ParseRequest.getUser(new RestTemplate(), "http://localhost:" + port + "/auth/get-user-info?token=" + token);
                 if (!"admin".equals(user.getUser().getRole())) {
-                    throw new ResponseStatusException(HttpStatusCode.valueOf(403), user.getValidationMessage().getMessage());
+                    throw new ResponseStatusException(HttpStatusCode.valueOf(403), user.getValidationResponse().getMessage());
                 }
             }
             return chain.filter(exchange);

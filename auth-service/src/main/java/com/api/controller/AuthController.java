@@ -1,9 +1,10 @@
 package com.api.controller;
 
+import com.api.model.User;
 import com.api.request.LoginRequest;
 import com.api.request.RegistrationRequest;
 import com.api.util.EStatus;
-import com.api.dto.Message;
+import com.api.dto.Response;
 import com.api.service.AuthService;
 import com.api.service.JwtService;
 import com.api.service.UserService;
@@ -33,28 +34,31 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Message> addNewUser(@Valid @RequestBody RegistrationRequest request) {
+    public ResponseEntity<Response> addNewUser(@Valid @RequestBody RegistrationRequest request) {
         if ("customer".equals(request.getRole()) || request.getRole() == null) {
             return authService.saveUser(request).wrap();
         } else {
-            return new Message(EStatus.FORBIDDEN, "Permission denied").wrap();
+            return new Response(EStatus.FORBIDDEN, "Permission denied").wrap();
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Message> getToken(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<Response> getToken(@Valid @RequestBody LoginRequest request) {
         return authService.login(request).wrap();
     }
 
     @GetMapping("/get-user-info")
     public ResponseEntity<ValidationUser> ret(@RequestParam("token") String token) {
-        ValidationUser user = new ValidationUser();
-        user.setValidationMessage(authService.validateToken(token));
-        if (user.getValidationMessage().getIsValid()) {
-            user.setUser(userService.findByUsername(jwtService.getUserNameFromJwtToken(token)).get());
-            return ResponseEntity.ok(user);
+        ValidationUser validationUser = new ValidationUser();
+        validationUser.setValidationResponse(authService.validateToken(token));
+        if (Boolean.TRUE.equals(validationUser.getValidationResponse().getIsValid())) {
+            Optional<User> user = userService.findByUsername(jwtService.getUserNameFromJwtToken(token));
+            if (user.isPresent()) {
+                validationUser.setUser(user.get());
+                return ResponseEntity.ok(validationUser);
+            }
         }
-        return ResponseEntity.badRequest().body(user);
+        return ResponseEntity.badRequest().body(validationUser);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -65,7 +69,7 @@ public class AuthController {
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(BadCredentialsException.class)
-    public Message handleBadCredentialsExceptions(BadCredentialsException ex) {
-        return new Message(EStatus.ERROR, ex.getMessage() + ": Wrong password");
+    public Response handleBadCredentialsExceptions(BadCredentialsException ex) {
+        return new Response(EStatus.ERROR, ex.getMessage() + ": Wrong password");
     }
 }
